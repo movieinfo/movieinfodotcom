@@ -1,0 +1,11 @@
+1. git init
+
+2. git add .
+
+3. git commit -m "nombre del commit"
+
+4. git remote add origin https://github.com/Maopos/etyertyer.git
+
+5. git branch -M documentos
+
+6. git push origin documentos
