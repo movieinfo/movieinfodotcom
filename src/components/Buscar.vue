@@ -112,7 +112,7 @@
 <script>
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
-//import axios from "axios";
+import axios from "axios";
 
 class Movie {
   constructor(
@@ -174,7 +174,45 @@ export default {
     Header,
   },
   methods: {
-    
+    search() {
+      axios
+        .get(`https://movieinfo-back.herokuapp.com/api/tasks/title/${this.title}`)
+        .then((data) => {
+          if (data.data.length > 0) {
+            this.movies = data.data;
+            console.log(this.movies);
+          }
+        });
+    },
+    watchTrailer(id) {
+      var query = `https://movieinfo-back.herokuapp.com/api/extradata/videos/${id}`;
+      axios.get(query).then((data) => {
+        this.trailers = data.data;
+        if (this.trailers.results.length > 1) {
+          console.log(">1");
+          this.trailers.movieId = this.trailers.results[1].key;
+        } else {
+          console.log("=1");
+          this.trailers.movieId = this.trailers.results[0].key;
+        }
+
+        console.log(this.trailers.movieId);
+
+        if (this.trailers.results.length > 0) {
+          this.toggleModal();
+          console.log(this.trailers.movieId);
+          this.trailerLink = `https://www.youtube.com/embed/${this.trailers.movieId}`;
+          //window.open(this.trailerLink);
+        } else {
+          console.log("NO HAY TRAILER DISPONIBLE");
+        }
+      });
+    },
+    toggleModal() {
+      console.log(this.isVisible);
+      this.isVisible = !this.isVisible;
+      console.log(this.isVisible);
+    },
     mounted: function () {},
   },
 };
