@@ -1,10 +1,16 @@
 <template>
   <div class="home">
     <Header></Header>
-    <br>
-    <br>
-    <br>
-    <br>
+    <br />
+    <br />
+    <br />
+    <br />
+    <div class="col-6 fadeInDown">
+          <img id="img_home" src="@/assets/peliculas.jpg" alt="" width="550" />
+        </div>
+
+    <img src="@/assets/logo.svg" id="icon" alt="User Icon" height="80px" />
+
     <!-- Login Form -->
     <form v-on:submit.prevent="login">
       <input
