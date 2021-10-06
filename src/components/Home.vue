@@ -1,13 +1,41 @@
 <template>
   <div class="home">
-    <Header></Header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand brand" href="/">
+        <img
+          src="../assets/logo.svg"
+          width="60"
+          class="d-inline-block align-top"
+          alt=""
+        />
+        MovieInfo
+      </a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="/about">Sobre nosotros</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
     <br />
     <br />
     <br />
     <br />
     <div class="col-6 fadeInDown">
-          <img id="img_home" src="@/assets/peliculas.jpg" alt="" width="550" />
-        </div>
+      <img id="img_home" src="@/assets/peliculas.jpg" alt="" width="550" />
+    </div>
 
     <img src="@/assets/logo.svg" id="icon" alt="User Icon" height="80px" />
 
@@ -36,13 +64,11 @@
 </template>
 
 <script>
-import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 export default {
   name: "Home",
   components: {
-    Header,
     Footer,
   },
 };
