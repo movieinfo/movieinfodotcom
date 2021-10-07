@@ -19,6 +19,11 @@ const routes = [
     path: '/buscar',
     name: 'Buscar',
     component: () => import('../components/Buscar.vue')
+  },
+  {
+    path: '/registro',
+    name: 'Registro',
+    component: () => import('../components/Registro.vue')
   }
 
 ]
@@ -30,3 +35,4 @@ const router = new VueRouter({
 })
 
 export default router
+

@@ -30,124 +30,129 @@
       </div>
     </nav>
     <br />
-    <br />
-    <br />
-    <br />
 
-    <div class="container" v-if="!correctLogin">
+    <div class="container">
       <div class="row">
         <div class="col-6 fadeInDown">
-          <img id="img_home" src="@/assets/peliculas.jpg" alt="" width="550" />
+          <img id="img_home" src="@/assets/peliculas2.jpg" alt="" width="550" />
         </div>
 
         <div class="col-6 wrapper fadeInDown" id="formContent">
+          <!-- Tabs Titles -->
+
           <!-- Icon -->
           <div class="fadeIn first">
             <img
               src="@/assets/logo.svg"
               id="icon"
               alt="User Icon"
-              height="80px"
+              height="40px"
             />
           </div>
 
           <!-- Login Form -->
-          <form v-on:submit.prevent="login">
+          <form v-on:submit.prevent="logup">
+            <input
+              type="text"
+              id="name"
+              class="fadeIn second"
+              placeholder="Nombre"
+              v-model="user.name"
+            />
+            <input
+              type="text"
+              id="lastname"
+              class="fadeIn second"
+              placeholder="Apellido"
+              v-model="user.lastname"
+            />
             <input
               type="text"
               id="login"
               class="fadeIn second"
-              name="login"
-              placeholder="Usuario"
-              v-model="email"
+              placeholder="User"
+              v-model="user.user"
             />
             <input
               type="password"
               id="password"
               class="fadeIn third"
-              name="login"
               placeholder="Password"
-              v-model="password"
+              v-model="user.password"
             />
-            <input type="submit" class="fadeIn fourth" value="Ingresa" />
-            <br />
-            <a class="nav-link" href="/registro">Registrate</a>
+            <input
+              type="password"
+              id="passwordRep"
+              class="fadeIn third"
+              placeholder="Confirme su password"
+              v-model="passwordRep"
+            />
+            <input type="submit" class="fadeIn fourth" value="Registrate" />
+            
+            <a class="nav-link" href="/">Ingresa</a>
           </form>
 
           <!-- Remind Passowrd -->
           <div class="alert alert-danger" role="alert" v-if="error">
             Datos de ingreso incorrectos...
-            <!-- {{error_msg}}  -->
+            {{ error_msg }}
           </div>
         </div>
       </div>
     </div>
-
-   
-     
-
     <Footer></Footer>
   </div>
 </template>
 
 <script>
 import axios from "axios";
-//import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
 
+class User {
+  constructor(name, lastname, user, password) {
+    (this.name = name), (this.lastname = lastname), (this.user = user);
+    this.password = password;
+  }
+}
 
 export default {
-  name: "Home",
+  name: "Registro",
   components: {
-    //Header,
     Footer,
-    
   },
   data: function () {
     return {
-      email: "",
-      password: "",
-      error: false,
-      error_msg: "",
-      correctLogin: false,
+      user: new User(),
+      passwordRep: "",
+      error: false
     };
   },
-
   methods: {
-    login() {
-      let json = {
-        email: this.email,
-        password: this.password,
-      };
-      axios
-        .get(
-          
-          `https://movieinfo-back.herokuapp.com/api/users/${this.email}/${this.password}`,
-          json
-        )
-        .then((data) => {
-          const n = data.data.length;
-          
-
-          if (n > 0) {
-           
-
+    logup() {
+      if (this.user.password == this.passwordRep) {
+        let json = {
+          name: this.user.name,
+          lastname: this.user.lastname,
+          user: this.user.user,
+          password: this.user.password,
+        };
+        axios
+          .post("https://movieinfo-back.herokuapp.com/api/users", json)
+          .then((data) => {
+            console.log(data);
+            this.$router.push("/");
+            alert("Te has registrado correctamente!")
             this.error = false;
-            
-            console.log(this.correctLogin);
-            
-
-            //localStorage.setItem('token', data.data.data.token)
-            this.$router.push("buscar");
-          } else {
+          })
+          .catch(() => {
             this.error = true;
-            this.error_msg = "dfgsadfg";
-          }
-        })
-        .catch((error) => {
-          this.error = true;
-          this.error_msg = error;
-        });
+            this.error_msg = "Este usuario ya existe...";
+          });
+      } else {
+         this.error = true;
+            this.error_msg = "Ambos passwords deben coincidir...";
+        
+      }
     },
   },
 };
@@ -436,7 +441,7 @@ input[type="text"]:placeholder {
 
 #icon {
   margin: 10px;
-  height: 100px;
+  height: 40px;
 }
 
 img {
